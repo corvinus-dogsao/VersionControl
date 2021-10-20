@@ -49,5 +49,20 @@ namespace week5
         p.Index = "OTP";
         p.Volume = 10;
         Portfolio.Add(p);
+
+        private decimal GetPortfolioValue(DateTime date)
+        {
+            decimal value = 0;
+            foreach (var item in Portfolio)
+            {
+                var last = (from x in Ticks
+                            where item.Index == x.Index.Trim() 
+                               && date <= x.TradingDay
+                            select x)
+                            .First();
+                value += (decimal)last.Price * item.Volume;
+            }
+            return value;
+        }
     }
 }
