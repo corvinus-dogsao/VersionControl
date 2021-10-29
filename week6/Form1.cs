@@ -39,6 +39,10 @@ namespace week6
             series.BorderWidth = 2;
             var chartArea = chartRateData.ChartAreas[0];
             chartArea.AxisX.MajorGrid.Enabled = false;
+            chartArea.AxisY.MajorGrid.Enabled = false;
+            chartArea.AxisY.IsStartedFromZero = false;
+            var legend = chartRateData.Legends[0];
+            legend.Enabled = false;
         }
 
         private void LoadXml (string input)
@@ -54,8 +58,13 @@ namespace week6
             request.startDate = "2020-01-01";
             request.endDate = "2020-06-30";
             var response = mnbService.GetExchangeRates(request);
-            string result = response.GetExchangeRatesResult();
+            string result = response.GetExchangeRatesResult;
+            return result;
         }
-      
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
     }
 }
