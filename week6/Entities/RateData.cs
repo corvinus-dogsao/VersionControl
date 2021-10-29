@@ -3,9 +3,9 @@
 /// <summary>
 /// Summary description for Class1
 /// </summary>
-public class Class1
+namespace week6.Entities
 {
-	public Class1()
+	class RateData
 	{
 		public DateTime Date { get; set; }
 		public string Currency { get; set; }
