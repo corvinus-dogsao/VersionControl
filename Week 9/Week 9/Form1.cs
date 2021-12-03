@@ -8,16 +8,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Week_9.Entities;
 
 namespace Week_9
 {
     public partial class Form1 : Form
     {
+        List<Person> Population = new List<Person>();
+        List<BirthProbability> BirthProbabilities = null;
+        List<DeathProbability> DeathProbabilities = null;
+
         public Form1()
         {
             InitializeComponent();
 
-            Population = GetPopulation(@"C:/Temp/nép-teszt.csv");
+            Population = GetPopulation(@"C:\Temp\nép.csv");
+            BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
+            DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
         }
 
         public List<Person> GetPopulation(string csvpath)
@@ -39,6 +46,48 @@ namespace Week_9
             }
 
             return population;
+        }
+
+        public List<BirthProbability> GetBirthProbabilities(string csvpath)
+        {
+            List<BirthProbability> birthProbabilities = new List<BirthProbability>();
+
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    birthProbabilities.Add(new BirthProbability()
+                    {
+                        Age = int.Parse(line[0]),
+                        P= double.Parse(line[2].Replace(",",".")),
+                        NbrOfChildren = int.Parse(line[1])
+                    });
+                }
+            }
+
+            return birthProbabilities;
+        }
+
+        public List<DeathProbability> GetDeathPprobabilities(string csvpath)
+        {
+            List<DeathProbability> deathProbability = new List<DeathProbability>();
+
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    deathProbability.Add(new DeathProbability()
+                    {
+                        Age = int.Parse(line[1]),
+                        Gender = (Gender)Enum.Parse(typeof(Gender), line[1]),
+                        P = double.Parse(line[2].Replace(",", "."))
+                    });
+                }
+            }
+
+            return deathProbability;
         }
     }
 }
