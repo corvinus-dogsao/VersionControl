@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,18 +24,21 @@ namespace Week_9
         {
             List<Person> population = new List<Person>();
 
-            using (var sr = new Streamreader(csvpath, Encoding.Default))
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
             {
                 while (!sr.EndOfStream)
                 {
                     var line = sr.ReadLine().Split(';');
-                    var p = new Person();
-                    p.BirthYear = int.Parse(line[0]);
-                    p.Gender = Enum.Parse(typeof(Gender), line[1]);
+                    population.Add(new Person()
+                    {
+                        BirthYear = int.Parse(line[0]),
+                        Gender = (Gender)Enum.Parse(typeof(Gender), line[1]),
+                        NbrOfChildren = int.Parse(line[2])
+                    });
                 }
             }
 
-            reutrn population;
+            return population;
         }
     }
 }
