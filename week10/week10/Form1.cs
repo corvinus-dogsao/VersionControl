@@ -15,6 +15,7 @@ namespace week10
     {
         GameController gc = new GameController();
         GameArea ga;
+        Brain winnerBrain = null;
 
         int populationSize = 100;
         int nbrOfSteps = 10;
@@ -49,6 +50,16 @@ namespace week10
                              select p;
             var topPerformers = playerList.Take(populationSize / 2).ToList();
 
+            var winners = from p in topPerformers
+                          where p.IsWinner
+                          select p;
+            if (winners.Count() > 0)
+            {
+                winnerBrain = winners.FirstOrDefault().Brain.Clone();
+                gc.GameOver -= Gc_GameOver;
+                return;
+            }
+
             gc.ResetCurrentLevel();
             foreach (var p in topPerformers)
             {
@@ -67,5 +78,13 @@ namespace week10
 
         }
 
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            gc.ResetCurrentLevel();
+            gc.AddPlayer(winnerBrain.Clone());
+            gc.AddPlayer();
+            ga.Focus();
+            gc.Start(true);
+        }
     }
 }
