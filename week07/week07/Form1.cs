@@ -64,6 +64,9 @@ namespace week07
         private void button2_Click(object sender, EventArgs e)
         {
             Factory = new BallFactory();
+            {
+                BallColor = btnBallColor.BackColor
+            };
         }
 
         private void DisplayNext()
