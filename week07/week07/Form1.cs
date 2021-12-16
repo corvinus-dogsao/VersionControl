@@ -21,9 +21,11 @@ namespace week07
             get { return _factory; }
             set { _factory = value; }
         }
+
         public Form1()
         {
             InitializeComponent();
+            Factory = new BallFactory();
         }
 
         private void createTimer_Tick(object sender, EventArgs e)
